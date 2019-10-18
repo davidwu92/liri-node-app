@@ -1,7 +1,11 @@
 
 const axios = require('axios')
 const inquirer = require('inquirer')
-const spotify = require('node-spotify-api')
+let Spotify = require('node-spotify-api')
+  let spotify = new Spotify({
+    id: '0817ccada03149868161a81a9a5feb22',
+    secret: 'f9c260ba0f52454bbe3540d81376a605',
+  }) 
 const omdb = require('omdb')
 
 //start by asking user for what they're looking for: song, concert, or movie.
@@ -22,39 +26,52 @@ const promptData = () => {
       case 'Song':
         inquirer.prompt({
           type: 'input',
-          name: 'songKeyword',
+          name: 'songKeywords',
           message: 'Artist, album, or track title?',
         })
         .then(songData =>{
-          console.log(songData.songKeyword)
-            //SPOTIFY SEARCH
+          let song = songData.songKeywords;
+          console.log("Searching for tracks related to " + song);
+          //SPOTIFY API STUFF
+
         })
-        .catch(e => console.log(e))
+        .catch(songError => console.log(songError))
         break;
-      case 'Concert':
+      
+        case 'Concert':
         inquirer.prompt({
           type: 'input',
-          name: 'concertKeyword',
+          name: 'concertKeywords',
           message: 'Please provide the artist or tour name',
         })
         .then(concertData =>{
-          console.log(concertData.concertKeyword)
+          let concert = concertData.concertKeywords;
+          console.log(concert);
           //BandsInTown API stuff
         })
-        .catch(e => console.log(e))
+        .catch(concertError => console.log(concertError))
         break;
+
       case 'Movie':
         inquirer.prompt({
           type: 'input',
-          name: 'movieKeyword',
+          name: 'movieKeywords',
           message: 'Movie title?',
         })
           .then(movieData =>{
-            console.log(movieData.movieKeyword)
-            //OMDBAPI SEARCH
+            let movie = movieData.movieKeywords;
+            movie = movie.split(" ").join("+");
+            console.log(movie)
+        //OMDBAPI SEARCH
+            axios.get(`http://omdbapi.com/?t=${movie}&apikey=trilogy`)
+              .then(movieData => {
+                console.log(movieData.data)
+              })
+              .catch(e=>console.log(e))
           })
-          .catch(e => console.log(e))
+          .catch(movieError => console.log(movieError))
         break;
+        
       default:
         console.log('How did you manage to select something other than what I asked for?')
       }
