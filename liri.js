@@ -6,12 +6,7 @@ const keys = require("./keys.js");
 const Spotify = require('node-spotify-api')
 const spotify = new Spotify(keys.spotify);
 
-//   let spotify = new Spotify({
-//     id: '0817ccada03149868161a81a9a5feb22',
-//     secret: 'f9c260ba0f52454bbe3540d81376a605',
-//   }) 
 const omdb = require('omdb') //do I really need this?
-//start by asking user for what they're looking for: song, concert, or movie.
 
 const promptData = () => {
   inquirer.prompt(
@@ -38,10 +33,14 @@ const promptData = () => {
           //SPOTIFY API STUFF
           spotify.search({
             type: "track",
-            query: song,
+            query: `${song}`,
           }, (e, outputData) => {
             if (e) {console.log(e)}
-            console.log(outputData.tracks.items)
+            let tracks = outputData.tracks.items
+            console.log(chalk.blue("Artists: "+tracks[0].artists[0].name))
+            console.log(chalk.red("Track Title: "+ tracks[0].name))
+            console.log(chalk.blue("Preview Link: "+tracks[0].external_urls.spotify))
+            console.log(chalk.red("Album Title: "+ tracks[0].name))
           })
         })
         .catch(songError => console.log(songError))
