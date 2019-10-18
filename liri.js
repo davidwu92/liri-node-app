@@ -5,7 +5,6 @@ require("dotenv").config();
 const keys = require("./keys.js");
 const Spotify = require('node-spotify-api')
 const spotify = new Spotify(keys.spotify);
-
 const omdb = require('omdb') //do I really need this?
 
 const promptData = () => {
