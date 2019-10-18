@@ -87,14 +87,18 @@ const promptData = () => {
           .then(movieData =>{
             let movie = movieData.movieKeywords;
             movie = movie.split(" ").join("+");
-            console.log("Searching for movies titled: " + movie)
         //OMDBAPI SEARCH
             axios.get(`http://omdbapi.com/?t=${movie}&apikey=trilogy`)
               .then(movieData => {
-                console.log(movieData.data)
-
-
-                
+                // console.log(movieData.data)
+                console.log(chalk.red("Title: "+ movieData.data.Title))
+                console.log(chalk.blue("Year: "+ movieData.data.Year))
+                console.log(chalk.magenta("IMDB Rating: "+ movieData.data.Ratings[0].Value))
+                console.log(chalk.blue("Rotten Tomatoes Rating: "+movieData.data.Ratings.Value))
+                console.log(chalk.magenta("Country: "+ movieData.data.Country))
+                console.log(chalk.blue("Language: "+ movieData.data.Language))
+                console.log(chalk.magenta("Plot: "+movieData.data.Plot))
+                console.log(chalk.blue("Actors: "+movieData.data.Actors))
               })
               .catch(e=>console.log(e))
           })
