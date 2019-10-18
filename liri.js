@@ -1,6 +1,6 @@
 const axios = require('axios')
 const inquirer = require('inquirer')
-
+const chalk = require('chalk')
 require("dotenv").config();
 const keys = require("./keys.js");
 const Spotify = require('node-spotify-api')
@@ -51,12 +51,29 @@ const promptData = () => {
         inquirer.prompt({
           type: 'input',
           name: 'concertKeywords',
-          message: 'Please provide the artist or tour name',
+          message: 'Please provide the artist name',
         })
         .then(concertData =>{
-          let concert = concertData.concertKeywords;
-          console.log(concert);
+          let concertArtist = concertData.concertKeywords;
+          concertArtist = concertArtist.split(" ").join("+");
           //BandsInTown API stuff
+          axios.get(`https://rest.bandsintown.com/artists/${concertArtist}/events?app_id=codingbootcamp`)
+          .then(concertData => {
+            let showInfo = concertData.data
+            showInfo.forEach((show, index) =>{
+              if (index%2){
+              console.log(chalk.red("Venue Name:" + show.venue.name))
+              console.log(chalk.red("City:" + show.venue.city))
+              console.log(chalk.red("Date:" + show.datetime)) //Need moment.js to properly format
+              }
+              else {
+              console.log(chalk.blue("Venue Name:" + show.venue.name))
+              console.log(chalk.blue("City:" + show.venue.city))
+              console.log(chalk.blue("Date:" + show.datetime)) //Need moment.js to properly format
+              }
+            })
+          })
+          .catch(e => console.log(e))
         })
         .catch(concertError => console.log(concertError))
         break;
@@ -75,6 +92,9 @@ const promptData = () => {
             axios.get(`http://omdbapi.com/?t=${movie}&apikey=trilogy`)
               .then(movieData => {
                 console.log(movieData.data)
+
+
+                
               })
               .catch(e=>console.log(e))
           })
