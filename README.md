@@ -8,10 +8,10 @@ USAGE
 
 
 **Case 1**: If Song is chosen, the user is asked to input the track title. Once enter is hit, the terminal should display information on the track: Artists, Track Title, Preview URL, and the Album Title.
-![LIRI Song Selection](/images/LiriSong.png)
+![LIRI Song Selection](/images/LIRISong.png)
 
 **Case 2**: If Concert is chosen, the user is asked to input the artist. Once enter is hit, the terminal should display information on the artist's tour dates: Venue name, city, and date.
-![Liri Concert Selection](/images/LiriConcert.png)
+![LIRI Concert Selection](/images/LIRIConcert.png)
 
 **Case 3**: If Movie is chosen, the user is asked to input the movie title. Once enter is hit, the terminal should display information on the movie: Title, Year, Ratings, Country, Language, Plot, and Actors.
-![Liri Movie Selection](/images/LiriMovie.png)
+![LIRI Movie Selection](/images/LIRIMovie.png)
