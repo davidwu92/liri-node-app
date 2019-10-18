@@ -33,6 +33,7 @@ const promptData = () => {
           let song = songData.songKeywords;
           console.log("Searching for tracks related to " + song);
           //SPOTIFY API STUFF
+          axios.get()
 
         })
         .catch(songError => console.log(songError))
@@ -61,7 +62,7 @@ const promptData = () => {
           .then(movieData =>{
             let movie = movieData.movieKeywords;
             movie = movie.split(" ").join("+");
-            console.log(movie)
+            console.log("Searching for movies titled: " + movie)
         //OMDBAPI SEARCH
             axios.get(`http://omdbapi.com/?t=${movie}&apikey=trilogy`)
               .then(movieData => {
