@@ -1,13 +1,16 @@
-
 const axios = require('axios')
 const inquirer = require('inquirer')
-let Spotify = require('node-spotify-api')
-  let spotify = new Spotify({
-    id: '0817ccada03149868161a81a9a5feb22',
-    secret: 'f9c260ba0f52454bbe3540d81376a605',
-  }) 
-const omdb = require('omdb')
 
+require("dotenv").config();
+const keys = require("./keys.js");
+const Spotify = require('node-spotify-api')
+const spotify = new Spotify(keys.spotify);
+
+//   let spotify = new Spotify({
+//     id: '0817ccada03149868161a81a9a5feb22',
+//     secret: 'f9c260ba0f52454bbe3540d81376a605',
+//   }) 
+const omdb = require('omdb') //do I really need this?
 //start by asking user for what they're looking for: song, concert, or movie.
 
 const promptData = () => {
@@ -27,14 +30,19 @@ const promptData = () => {
         inquirer.prompt({
           type: 'input',
           name: 'songKeywords',
-          message: 'Artist, album, or track title?',
+          message: 'Song or track title?',
         })
         .then(songData =>{
           let song = songData.songKeywords;
           console.log("Searching for tracks related to " + song);
           //SPOTIFY API STUFF
-          axios.get()
-
+          spotify.search({
+            type: "track",
+            query: song,
+          }, (e, outputData) => {
+            if (e) {console.log(e)}
+            console.log(outputData.tracks.items)
+          })
         })
         .catch(songError => console.log(songError))
         break;
